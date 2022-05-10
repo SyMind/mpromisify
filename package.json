@@ -2,9 +2,11 @@
   "name": "mpromisify",
   "version": "1.0.0",
   "description": "用于小程序的 promisify 方法",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublishOnly": "tsc",
+    "build": "tsc",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,7 @@
   },
   "homepage": "https://github.com/SyMind/mpromisify#readme",
   "devDependencies": {
+    "@types/jest": "^27.5.0",
     "jest": "^28.1.0",
     "ts-jest": "^28.0.2",
     "typescript": "^4.6.4"

@@ -37,14 +37,6 @@ namespace setStorage {
     type ParamPropComplete = () => any
 }
 
-/**
- * 将数据存储在本地缓存中指定的 key 中，会覆盖掉原来该 key 对应的内容，这是一个异步接口。
- */
-function setStorage(param: setStorage.Param): void {
-}
-
-promisify(setStorage) // $ExpectType Promise<any>
-
 namespace getStorage {
     export type Param = {
         /**
@@ -84,10 +76,70 @@ namespace getStorage {
     export type ParamPropComplete = () => any
 }
 
-/**
- * 从本地缓存中异步获取指定 key 对应的内容。
- */
-function getStorage(param: getStorage.Param): void {
-}
+test('required success callback', async () => {
+    const fn = jest.fn()
+    function getStorage(param: getStorage.Param): void {
+        fn(param)
+        param.success({data: 'world'})
+    }
+    await promisify(getStorage)({key: 'hello'})
+    expect(fn).toHaveBeenCalledTimes(1)
+    const param = fn.mock.calls[0][0]
+    expect(param.key).toBe('hello')
+    expect(typeof param.success).toBe('function')
+    expect(typeof param.fail).toBe('function')
+})
 
-promisify(getStorage) // $ExpectType Promise<getStorage.ParamPropSuccessParam>
+test('optional success callback', async () => {
+    const fn = jest.fn()
+    function setStorage(param: setStorage.Param): void {
+        fn(param)
+        if (param.success) {
+            param.success({data: 'world'})
+        }
+    }
+    await promisify(setStorage)({
+        key: 'hello',
+        data: 'world'
+    })
+    expect(fn).toHaveBeenCalledTimes(1)
+    const param = fn.mock.calls[0][0]
+    expect(param.key).toBe('hello')
+    expect(param.data).toBe('world')
+    expect(typeof param.success).toBe('function')
+    expect(typeof param.fail).toBe('function')
+})
+
+test('called success', async () => {
+    function getStorage(param: getStorage.Param): void {
+        param.success({data: 'world'})
+    }
+    const res /* $ExpectType getStorage.ParamPropSuccessParam */ = await promisify(getStorage)({key: 'hello'})
+    expect(res).toEqual({data: 'world'})
+})
+
+test('called fail', async () => {
+    function getStorage(param: getStorage.Param): void {
+        if (param.fail) {
+            param.fail({errMsg: 'getStorage:fail data not found'})
+        }
+    }
+    try {
+        await promisify(getStorage)({key: 'hello'})
+    } catch (err /* $ExpectType any */) {
+        expect(err).toEqual({errMsg: 'getStorage:fail data not found'})
+    }
+})
+
+test('use callback', async () => {
+    function getStorage(param: getStorage.Param): void {
+        param.success({data: 'world'})
+    }
+    const success = jest.fn()
+    await promisify(getStorage)({
+        key: 'hello',
+        success
+    })
+    expect(success).toHaveBeenCalledTimes(1)
+    expect(success.mock.calls[0][0]).toEqual({data: 'world'})
+})
