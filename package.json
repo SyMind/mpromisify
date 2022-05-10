@@ -1,0 +1,24 @@
+{
+  "name": "mpromisify",
+  "version": "1.0.0",
+  "description": "用于小程序的 promisify 方法",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SyMind/mpromisify.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SyMind/mpromisify/issues"
+  },
+  "homepage": "https://github.com/SyMind/mpromisify#readme",
+  "devDependencies": {
+    "jest": "^28.1.0",
+    "ts-jest": "^28.0.2",
+    "typescript": "^4.6.4"
+  }
+}
