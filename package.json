@@ -1,6 +1,6 @@
 {
   "name": "mpromisify",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "用于小程序的 promisify 方法",
   "main": "lib/index.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/SyMind/mpromisify.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/SyMind/mpromisify/issues"
   },
