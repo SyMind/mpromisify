@@ -76,6 +76,35 @@ namespace getStorage {
     export type ParamPropComplete = () => any
 }
 
+namespace clearStorage {
+    export type Param = {
+        /**
+         * 接口调用成功的回调函数
+         */
+        success?: ParamPropSuccess
+        /**
+         * 接口调用失败的回调函数
+         */
+        fail?: ParamPropFail
+        /**
+         * 接口调用结束的回调函数（调用成功、失败都会执行）
+         */
+        complete?: ParamPropComplete
+    }
+    /**
+     * 接口调用成功的回调函数
+     */
+    type ParamPropSuccess = (res: any) => any
+    /**
+     * 接口调用失败的回调函数
+     */
+    type ParamPropFail = (err: any) => any
+    /**
+     * 接口调用结束的回调函数（调用成功、失败都会执行）
+     */
+    type ParamPropComplete = () => any
+}
+
 test('required success callback', async () => {
     const fn = jest.fn()
     function getStorage(param: getStorage.Param): void {
@@ -106,6 +135,21 @@ test('optional success callback', async () => {
     const param = fn.mock.calls[0][0]
     expect(param.key).toBe('hello')
     expect(param.data).toBe('world')
+    expect(typeof param.success).toBe('function')
+    expect(typeof param.fail).toBe('function')
+})
+
+test('called with empty option', async () => {
+    const fn = jest.fn()
+    function clearStorage(param?: clearStorage.Param): void {
+        fn(param)
+        if (param && param.success) {
+            param.success({data: 'world'})
+        }
+    }
+    await promisify(clearStorage)(undefined)
+    expect(fn).toHaveBeenCalledTimes(1)
+    const param = fn.mock.calls[0][0]
     expect(typeof param.success).toBe('function')
     expect(typeof param.fail).toBe('function')
 })

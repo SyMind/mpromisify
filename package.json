@@ -1,6 +1,6 @@
 {
   "name": "mpromisify",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "用于小程序的 promisify 方法",
   "main": "lib/index.js",
   "scripts": {
