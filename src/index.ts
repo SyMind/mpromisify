@@ -1,9 +1,13 @@
 interface MethodOptionLike {
-    success?: (arg: any) => void
+    success?: ((arg: any) => void) | (() => void)
     fail?: (err: any) => void
 }
 
-type OptionPropSuccessParam<T extends MethodOptionLike> = T extends { success?: (arg: infer P) => any } ? P : never
+type OptionPropSuccessParam<T extends MethodOptionLike> = T extends { success?: () => any }
+    ? void
+    : T extends { success?: (arg: infer P) => any }
+        ? P
+        : never
 
 type PartialOptionPropSuccess<T extends MethodOptionLike | undefined> = T extends MethodOptionLike ? Omit<T, 'success'> & { success?: (arg: any) => void } : undefined
 

@@ -26,11 +26,11 @@ namespace setStorage {
     /**
      * 接口调用成功的回调函数
      */
-    type ParamPropSuccess = (res: any) => any
+    type ParamPropSuccess = () => any
     /**
      * 接口调用失败的回调函数
      */
-    type ParamPropFail = (err: any) => any
+    type ParamPropFail = () => any
     /**
      * 接口调用结束的回调函数（调用成功、失败都会执行）
      */
@@ -124,10 +124,10 @@ test('optional success callback', async () => {
     function setStorage(param: setStorage.Param): void {
         fn(param)
         if (param.success) {
-            param.success({data: 'world'})
+            param.success()
         }
     }
-    await promisify(setStorage)({
+    const res /* $ExpectType void */ = await promisify(setStorage)({
         key: 'hello',
         data: 'world'
     })
