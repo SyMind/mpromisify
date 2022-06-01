@@ -1,7 +1,7 @@
 {
     "name": "mpromisify",
     "version": "1.0.4",
-    "description": "用于小程序的 promisify 方法",
+    "description": "用于小程序的 promisify 方法，具有完备的 TypeScript 类型推导",
     "main": "lib/index.js",
     "scripts": {
         "prepublishOnly": "tsc",

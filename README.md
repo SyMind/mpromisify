@@ -1,6 +1,6 @@
 # mpromisify
 
-用于小程序的 promisify 方法。
+用于小程序的 promisify 方法，具有完备的 TypeScript 类型推导。
 
 ## 安装与使用
 
